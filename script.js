@@ -26,6 +26,7 @@ function addElement() {
 function generateFinalHTML() {
   let html = `<form>\n`;
 
+  
   formElements.forEach(element => {
     let inputElement;
     if (element.type === 'text' || element.type === 'email' || element.type === 'number') {
