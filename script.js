@@ -1,31 +1,61 @@
-document.getElementById('dynamicForm').addEventListener('submit', function(event) {
-  event.preventDefault();  
+const formElements = [];
 
+function addElement() {
+  const name = document.getElementById('input-name').value;
+  const type = document.getElementById('input-type').value;
+  const required = document.getElementById('required').value;
+  const label = document.getElementById('input-label').value;
 
-  const name = document.getElementById('name').value;
-  const gender = document.querySelector('input[name="gender"]:checked').value;
-  const email = document.getElementById('email').value;
-  const age = document.getElementById('age').value;
-  const highestQualification = document.getElementById('highestQualification').value;
-  const resume = document.getElementById('resume').files[0].name;
-  const shareForm = document.getElementById('shareForm').checked ? 'Yes' : 'No';
+  if (name && label) {
+    formElements.push({ name, type, required, label });
 
-  
-  const newRow = document.createElement('tr');
+    const table = document.getElementById('dynamic-table').getElementsByTagName('tbody')[0];
+    const row = table.insertRow();
+    row.insertCell(0).textContent = name;
+    row.insertCell(1).textContent = type;
+    row.insertCell(2).textContent = required;
+    row.insertCell(3).textContent = label;
 
-  
-  newRow.innerHTML = `
-      <td>${name}</td>
-      <td>${gender}</td>
-      <td>${email}</td>
-      <td>${age}</td>
-      <td>${highestQualification}</td>
-      <td>${resume}</td>
-  `;
+    document.getElementById('input-name').value = '';
+    document.getElementById('input-label').value = '';
+  } else {
+    alert('Please provide both name and label.');
+  }
+}
 
-  
-  document.querySelector('#dynamicTable tbody').appendChild(newRow);
+function generateFinalHTML() {
+  let html = `<form>\n`;
 
-  
-  document.getElementById('dynamicForm').reset();
-});
+  formElements.forEach(element => {
+    let inputElement;
+    if (element.type === 'text' || element.type === 'email' || element.type === 'number') {
+      inputElement = `<input type="${element.type}" name="${element.name}" id="${element.name}" ${element.required === 'true' ? 'required' : ''}>`;
+    } else if (element.type === 'radio') {
+      inputElement = `<input type="radio" name="${element.name}" id="${element.name}" ${element.required === 'true' ? 'required' : ''}>`;
+    } else if (element.type === 'checkbox') {
+      inputElement = `<input type="checkbox" name="${element.name}" id="${element.name}" ${element.required === 'true' ? 'required' : ''}>`;
+    } else if (element.type === 'dropdown') {
+      inputElement = `<select name="${element.name}" id="${element.name}" ${element.required === 'true' ? 'required' : ''}><option value="">Select</option></select>`;
+    } else if (element.type === 'file') {
+      inputElement = `<input type="file" name="${element.name}" id="${element.name}" ${element.required === 'true' ? 'required' : ''}>`;
+    }
+
+    html += `  <label for="${element.name}">${element.label}</label>\n`;
+    html += `  ${inputElement}\n`;
+  });
+
+  html += `</form>`;
+
+  document.getElementById('generated-html').textContent = html;
+
+  document.getElementById('download-btn').style.display = 'inline';
+}
+
+function downloadHTML() {
+  const htmlContent = document.getElementById('generated-html').textContent;
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'generated_form.html';
+  link.click();
+}

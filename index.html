@@ -3,76 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Dynamic Form</title>
+    <title>Form Builder</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-container">
-            <h1>Form</h1>
-            <form id="dynamicForm">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
-                </div>
+    <h2>Dynamic Form Builder</h2>
+    <form id="form-builder">
+        <label for="input-name">Input Name:</label>
+        <input type="text" id="input-name" required><br><br>
 
-                <div class="gender">
-                    <label>Gender:</label>
-                    <input type="radio" id="male" name="gender" value="Male" required> Male
-                    <input type="radio" id="female" name="gender" value="Female" required> Female
-                </div>
+        <label for="input-type">Input Type:</label>
+        <select id="input-type">
+            <option value="text">Text</option>
+            <option value="radio">Radio</option>
+            <option value="email">Email</option>
+            <option value="dropdown">Dropdown</option>
+            <option value="checkbox">Checkbox</option>
+            <option value="file">File</option>
+            <option value="number">Number</option>
+        </select><br><br>
 
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                </div>
+        <label for="required">Required:</label>
+        <select id="required">
+            <option value="true">True</option>
+            <option value="false">False</option>
+        </select><br><br>
 
-                <div>
-                    <label for="age">Age:</label>
-                    <input type="text" id="age" name="age" placeholder="Enter your age" required />
-                </div>
+        <label for="input-label">Input Label:</label>
+        <input type="text" id="input-label" required><br><br>
 
-                <div>
-                    <label for="highestQualification">Highest Qualification:</label>
-                    <select id="highestQualification" name="highestQualification" required>
-                        <option value="">Select Qualification</option>
-                        <option value="10th">10th</option>
-                        <option value="12th">12th</option>
-                        <option value="Graduation">Graduation</option>
-                    </select>
-                </div>
+        <button type="button" onclick="addElement()">Add Element</button>
+        <button type="button" onclick="generateFinalHTML()">Generate Final HTML</button>
+    </form>
 
-                <div>
-                    <label for="resume">Upload Resume:</label>
-                    <input type="file" id="resume" name="resume" required>
-                </div>
+    <h3>Dynamic Table</h3>
+    <table id="dynamic-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Required</th>
+                <th>Label</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
-                <div>
-                    <input type="checkbox" id="shareForm" name="shareForm">
-                    <label for="shareForm">Share this form with me</label>
-                </div>
+    <h3>Generated HTML Form:</h3>
+    <pre id="generated-html"></pre>
 
-                <button type="submit">Add Element</button>
-            </form>
-        </div>
-
-        <div class="table-container">
-            <h2>Table</h2>
-            <table id="dynamicTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Gender</th>
-                        <th>Email</th>
-                        <th>Age</th>
-                        <th>Qualification</th>
-                        <th>Resume</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
+    <button id="download-btn" style="display: none;" onclick="downloadHTML()">Download HTML</button>
 
     <script src="script.js"></script>
 </body>
